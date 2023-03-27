@@ -39,8 +39,30 @@ def main():
     # Calculate the monthly mortgage payment
     monthly_payment = (loan_amount * monthly_interest_rate) / (1 - (1 + monthly_interest_rate) ** (-loan_term_months))
 
-    # Print the monthly mortgage payment
+    # Calculate the estimated property taxes (annual rate is assumed to be 1.2% of the home value)
+    property_taxes = mortgage_amount * 0.012 / 12
+
+    # Calculate the estimated home insurance (annual rate is assumed to be 0.4% of the home value)
+    home_insurance = mortgage_amount * 0.004 / 12
+
+    # Get user input for HOA fees
+    hoa_fees = st.number_input('Enter the monthly HOA fees (if applicable):', value=0)
+
+    # Calculate the estimated mortgage insurance (if applicable)
+    if down_payment_percent < 20:
+        mortgage_insurance_rate = 0.0085
+        mortgage_insurance = (mortgage_amount * mortgage_insurance_rate / 12)
+    else:
+        mortgage_insurance = 0
+
+    # Print the monthly mortgage payment and estimated expenses
     st.write(f'The monthly mortgage payment is ${monthly_payment:.2f}')
+    st.write(f'Estimated monthly property taxes: ${property_taxes:.2f}')
+    st.write(f'Estimated monthly home insurance: ${home_insurance:.2f}')
+    st.write(f'Monthly HOA fees: ${hoa_fees:.2f}')
+    if down_payment_percent < 20:
+        st.write(f'Estimated monthly mortgage insurance: ${mortgage_insurance:.2f}')
 
 if __name__ == '__main__':
+    st.set_page_config(page_title='Mortgage Calculator')
     main()
