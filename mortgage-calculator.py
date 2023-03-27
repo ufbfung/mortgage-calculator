@@ -65,6 +65,7 @@ def main():
     st.write(f'Monthly HOA fees: ${hoa_fees:.2f}')
     if down_payment_percent < 20:
         st.write(f'Estimated monthly mortgage insurance: ${mortgage_insurance:.2f}')
+    st.write(f'The total monthly cost is ${total_monthly_cost:.2f}')
 
 if __name__ == '__main__':
     st.set_page_config(page_title='Mortgage Calculator')
