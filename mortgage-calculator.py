@@ -55,7 +55,10 @@ def main():
     else:
         mortgage_insurance = 0
 
-    # Print the monthly mortgage payment and estimated expenses
+    # Calculate the total monthly cost
+    total_monthly_cost = monthly_payment + property_taxes + home_insurance + hoa_fees + mortgage_insurance
+
+    # Print the monthly mortgage payment, estimated expenses, and total monthly cost
     st.write(f'The monthly mortgage payment is ${monthly_payment:.2f}')
     st.write(f'Estimated monthly property taxes: ${property_taxes:.2f}')
     st.write(f'Estimated monthly home insurance: ${home_insurance:.2f}')
