@@ -41,3 +41,6 @@ def main():
 
     # Print the monthly mortgage payment
     st.write(f'The monthly mortgage payment is ${monthly_payment:.2f}')
+
+if __name__ == '__main__':
+    main()
