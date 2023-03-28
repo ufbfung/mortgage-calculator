@@ -42,9 +42,10 @@ def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_intere
     ax.axhline(y=50, color='gray', linestyle='--')
     ax.axhline(y=75, color='gray', linestyle='--')
 
-    return fig
-    
-fig = calculate_equity_over_time(total_cost, down_payment_percent/100, mortgage_interest_rate/100, mortgage_term_years)
+    return fig, equity
+
+fig, equity = calculate_equity_over_time(total_cost, down_payment_percent/100, mortgage_interest_rate/100, mortgage_term_years)
+
 st.pyplot(fig)
 
 today = date.today()
@@ -52,7 +53,7 @@ years = None
 
 for i, eq in enumerate(equity):
     if eq >= 25:
-        dt = today + timedelta(days=(months[i] * 30))
+        dt = today + timedelta(days=(i * 30))
         years = int((dt - today).days / 365.25)
         st.write(f"You will have 25% equity on {dt.strftime('%Y-%m-%d')} ({years} years from today).")
         break
