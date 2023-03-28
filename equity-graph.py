@@ -15,12 +15,15 @@ mortgage_term_years = st.sidebar.slider('Mortgage term (years)', 1, 50, 30)
 def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_interest_rate, mortgage_term_years):
     down_payment = total_cost * down_payment_percent / 100
     loan_amount = total_cost - down_payment
+
     if down_payment_percent < 20:
-        pmi_rate = 0.0055
-        pmi_cost = loan_amount * pmi_rate
-        monthly_payment = (loan_amount * mortgage_interest_rate / 12) / (1 - (1 + mortgage_interest_rate / 12) ** (-mortgage_term_years * 12)) + pmi_cost
+        # Calculate PMI
+        pmi_rate = st.sidebar.slider('PMI rate', 0.0, 2.0, 0.5, step=0.1)
+        pmi_monthly_cost = (loan_amount * pmi_rate / 12)
     else:
-        monthly_payment = (loan_amount * mortgage_interest_rate / 12) / (1 - (1 + mortgage_interest_rate / 12) ** (-mortgage_term_years * 12))
+        pmi_monthly_cost = 0
+
+    monthly_payment = (loan_amount * mortgage_interest_rate / 12) / (1 - (1 + mortgage_interest_rate / 12) ** (-mortgage_term_years * 12))
 
     equity = []
     months = []
@@ -32,15 +35,14 @@ def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_intere
         equity_percent = (total_cost - remaining_balance) / total_cost * 100
         equity.append(equity_percent)
 
-        if down_payment_percent < 20 and equity_percent < 20:
-            pmi_cost = remaining_balance * pmi_rate
-        else:
-            pmi_cost = 0
-
         interest_payment = remaining_balance * mortgage_interest_rate / 12
-        principal_payment = monthly_payment - interest_payment + pmi_cost
+        principal_payment = monthly_payment - interest_payment
         total_paid += monthly_payment
         remaining_balance -= principal_payment
+
+        if down_payment_percent < 20:
+            remaining_balance += pmi_monthly_cost
+            pmi_monthly_cost = (remaining_balance * pmi_rate / 12) if remaining_balance > 0 else 0
 
     fig, ax = plt.subplots()
     ax.plot(months, equity)
@@ -52,9 +54,9 @@ def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_intere
     ax.axhline(y=50, color='gray', linestyle='--')
     ax.axhline(y=75, color='gray', linestyle='--')
 
-    return fig, equity, monthly_payment, pmi_cost
+    return fig, equity, monthly_payment, pmi_monthly_cost
 
-fig, equity, monthly_payment, pmi_cost = calculate_equity_over_time(total_cost, down_payment_percent/100, mortgage_interest_rate/100, mortgage_term_years)
+fig, equity, monthly_payment, pmi_monthly_cost = calculate_equity_over_time(total_cost, down_payment_percent/100, mortgage_interest_rate/100, mortgage_term_years)
 
 st.pyplot(fig)
 
