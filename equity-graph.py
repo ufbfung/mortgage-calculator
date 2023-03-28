@@ -1,15 +1,3 @@
-import streamlit as st
-import matplotlib.pyplot as plt
-import numpy as np
-from datetime import date, timedelta
-
-st.sidebar.header('Mortgage Calculator')
-
-total_cost = st.sidebar.number_input('Total cost of the property', value=500000)
-down_payment_percent = st.sidebar.slider('Down payment percentage', 1, 100, 20)
-mortgage_interest_rate = st.sidebar.slider('Mortgage interest rate', 0.0, 10.0, 3.5, step=0.1)
-mortgage_term_years = st.sidebar.slider('Mortgage term (years)', 1, 50, 30)
-
 def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_interest_rate, mortgage_term_years):
     down_payment = total_cost * down_payment_percent
     loan_amount = total_cost - down_payment
@@ -30,16 +18,17 @@ def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_intere
         total_paid += monthly_payment
         remaining_balance -= principal_payment
 
-    plt.plot(months, equity)
-    plt.xlabel('Months')
-    plt.ylabel('Equity Percentage')
+    fig, ax = plt.subplots()
+    ax.plot(months, equity)
+    ax.set_xlabel('Months')
+    ax.set_ylabel('Equity Percentage')
 
     # Add markers for 25%, 50%, and 75% equity
-    plt.axhline(y=25, color='gray', linestyle='--')
-    plt.axhline(y=50, color='gray', linestyle='--')
-    plt.axhline(y=75, color='gray', linestyle='--')
+    ax.axhline(y=25, color='gray', linestyle='--')
+    ax.axhline(y=50, color='gray', linestyle='--')
+    ax.axhline(y=75, color='gray', linestyle='--')
 
-    st.pyplot()
+    st.pyplot(fig)
 
     today = date.today()
     years = None
@@ -70,5 +59,3 @@ def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_intere
             break
     else:
         st.write('You will not have 75% equity.')
-
-calculate_equity_over_time(total_cost, down_payment_percent/100, mortgage_interest_rate/100, mortgage_term_years)
