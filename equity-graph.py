@@ -12,10 +12,6 @@ down_payment_percent = st.sidebar.slider('Down payment percentage', 1, 100, 20)
 mortgage_interest_rate = st.sidebar.slider('Mortgage interest rate', 0.0, 10.0, 3.5, step=0.1)
 mortgage_term_years = st.sidebar.slider('Mortgage term (years)', 1, 50, 30)
 
-st.write(f"Monthly Mortgage Payment: ${monthly_payment:.2f}")
-if down_payment_percent < 20:
-    st.write(f"Monthly PMI Payment: ${pmi_monthly_cost:.2f}")
-
 def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_interest_rate, mortgage_term_years):
     down_payment = total_cost * down_payment_percent / 100
     loan_amount = total_cost - down_payment
@@ -61,6 +57,10 @@ def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_intere
     return fig, equity, monthly_payment, pmi_monthly_cost
 
 fig, equity, monthly_payment, pmi_monthly_cost = calculate_equity_over_time(total_cost, down_payment_percent/100, mortgage_interest_rate/100, mortgage_term_years)
+
+st.write(f"Monthly Mortgage Payment: ${monthly_payment:.2f}")
+if down_payment_percent < 20:
+    st.write(f"Monthly PMI Payment: ${pmi_monthly_cost:.2f}")
 
 st.pyplot(fig)
 
