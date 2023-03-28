@@ -17,6 +17,11 @@ def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_intere
     loan_amount = total_cost - down_payment
     monthly_payment = (loan_amount * mortgage_interest_rate / 12) / (1 - (1 + mortgage_interest_rate / 12) ** (-mortgage_term_years * 12))
 
+    if down_payment_percent < 20:
+        pmi_rate = 0.0055
+        pmi_cost = loan_amount * pmi_rate / 12
+        monthly_payment += pmi_cost
+    
     equity = []
     months = []
     total_paid = 0
