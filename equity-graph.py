@@ -1,5 +1,18 @@
+import streamlit as st
+import matplotlib.pyplot as plt
+import numpy as np
+from datetime import date, timedelta
+
+st.sidebar.header('Mortgage Calculator')
+
+total_cost = st.sidebar.slider('Total cost of the property', 100000, 1000000, 500000, 10000)
+down_payment_percent = st.sidebar.slider('Down payment percentage', 1, 100, 20)
+
+mortgage_interest_rate = st.sidebar.slider('Mortgage interest rate', 0.0, 10.0, 3.5, step=0.1)
+mortgage_term_years = st.sidebar.slider('Mortgage term (years)', 1, 50, 30)
+
 def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_interest_rate, mortgage_term_years):
-    down_payment = total_cost * down_payment_percent
+    down_payment = total_cost * down_payment_percent / 100
     loan_amount = total_cost - down_payment
     monthly_payment = (loan_amount * mortgage_interest_rate / 12) / (1 - (1 + mortgage_interest_rate / 12) ** (-mortgage_term_years * 12))
 
@@ -59,5 +72,3 @@ def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_intere
             break
     else:
         st.write('You will not have 75% equity.')
-
-calculate_equity_over_time(total_cost=500000, down_payment_percent=0.2, mortgage_interest_rate=0.04, mortgage_term_years=30)
