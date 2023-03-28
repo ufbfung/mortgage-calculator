@@ -47,32 +47,32 @@ def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_intere
 fig = calculate_equity_over_time(total_cost, down_payment_percent/100, mortgage_interest_rate/100, mortgage_term_years)
 st.pyplot(fig)
 
-    today = date.today()
-    years = None
+today = date.today()
+years = None
 
-    for i, eq in enumerate(equity):
-        if eq >= 25:
-            dt = today + timedelta(days=(months[i] * 30))
-            years = int((dt - today).days / 365.25)
-            st.write(f"You will have 25% equity on {dt.strftime('%Y-%m-%d')} ({years} years from today).")
-            break
-    else:
-        st.write('You will not have 25% equity.')
+for i, eq in enumerate(equity):
+    if eq >= 25:
+        dt = today + timedelta(days=(months[i] * 30))
+        years = int((dt - today).days / 365.25)
+        st.write(f"You will have 25% equity on {dt.strftime('%Y-%m-%d')} ({years} years from today).")
+        break
+else:
+    st.write('You will not have 25% equity.')
 
-    for i, eq in enumerate(equity):
-        if eq >= 50:
-            dt = today + timedelta(days=(months[i] * 30))
-            years = int((dt - today).days / 365.25)
-            st.write(f"You will have 50% equity on {dt.strftime('%Y-%m-%d')} ({years} years from today).")
-            break
-    else:
-        st.write('You will not have 50% equity.')
+for i, eq in enumerate(equity):
+    if eq >= 50:
+        dt = today + timedelta(days=(months[i] * 30))
+        years = int((dt - today).days / 365.25)
+        st.write(f"You will have 50% equity on {dt.strftime('%Y-%m-%d')} ({years} years from today).")
+        break
+else:
+    st.write('You will not have 50% equity.')
 
-    for i, eq in enumerate(equity):
-        if eq >= 75:
-            dt = today + timedelta(days=(months[i] * 30))
-            years = int((dt - today).days / 365.25)
-            st.write(f"You will have 75% equity on {dt.strftime('%Y-%m-%d')} ({years} years from today).")
-            break
-    else:
-        st.write('You will not have 75% equity.')
+for i, eq in enumerate(equity):
+    if eq >= 75:
+        dt = today + timedelta(days=(months[i] * 30))
+        years = int((dt - today).days / 365.25)
+        st.write(f"You will have 75% equity on {dt.strftime('%Y-%m-%d')} ({years} years from today).")
+        break
+else:
+    st.write('You will not have 75% equity.')
