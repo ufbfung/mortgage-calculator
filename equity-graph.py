@@ -15,14 +15,6 @@ mortgage_term_years = st.sidebar.slider('Mortgage term (years)', 1, 50, 30)
 def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_interest_rate, mortgage_term_years):
     down_payment = total_cost * down_payment_percent / 100
     loan_amount = total_cost - down_payment
-
-    if down_payment_percent < 20:
-        # Calculate PMI
-        pmi_rate = st.sidebar.slider('PMI rate', 0.0, 2.0, 0.5, step=0.1)
-        pmi_monthly_cost = (loan_amount * pmi_rate / 12)
-    else:
-        pmi_monthly_cost = 0
-
     monthly_payment = (loan_amount * mortgage_interest_rate / 12) / (1 - (1 + mortgage_interest_rate / 12) ** (-mortgage_term_years * 12))
 
     equity = []
@@ -40,10 +32,6 @@ def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_intere
         total_paid += monthly_payment
         remaining_balance -= principal_payment
 
-        if down_payment_percent < 20:
-            remaining_balance += pmi_monthly_cost
-            pmi_monthly_cost = (remaining_balance * pmi_rate / 12) if remaining_balance > 0 else 0
-
     fig, ax = plt.subplots()
     ax.plot(months, equity)
     ax.set_xlabel('Months')
@@ -54,17 +42,15 @@ def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_intere
     ax.axhline(y=50, color='gray', linestyle='--')
     ax.axhline(y=75, color='gray', linestyle='--')
 
-    return fig, equity, monthly_payment, pmi_monthly_cost
+    return fig, equity, monthly_payment
 
-fig, equity, monthly_payment, pmi_monthly_cost = calculate_equity_over_time(total_cost, down_payment_percent/100, mortgage_interest_rate/100, mortgage_term_years)
-
-st.write(f"Monthly Mortgage Payment: ${monthly_payment:.2f}")
-if down_payment_percent < 20:
-    st.write(f"Monthly PMI Payment: ${pmi_monthly_cost:.2f}")
+fig, equity, monthly_payment = calculate_equity_over_time(total_cost, down_payment_percent/100, mortgage_interest_rate/100, mortgage_term_years)
 
 st.pyplot(fig)
 
 today = date.today()
+
+st.write(f"Your monthly mortgage cost will be ${monthly_payment:.2f}.")
 
 for i, eq in enumerate(equity):
     if eq >= 25:
@@ -88,7 +74,4 @@ for i, eq in enumerate(equity):
     if eq >= 75:
         dt = today + timedelta(days=(i * 30))
         years = int((dt - today).days / 365.25)
-        st.write(f"You will have 75% equity on {dt.strftime('%Y-%m-%d')} ({years} years from today).")
-        break
-else:
-    st.write('You will not have 75% equity.')
+        st.write
