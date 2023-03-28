@@ -44,9 +44,8 @@ def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_intere
 
     return fig
     
-    fig = calculate_equity_over_time(total_cost, down_payment_percent/100, mortgage_interest_rate/100, mortgage_term_years)
-    
-    st.pyplot(fig)
+fig = calculate_equity_over_time(total_cost, down_payment_percent/100, mortgage_interest_rate/100, mortgage_term_years)
+st.pyplot(fig)
 
     today = date.today()
     years = None
