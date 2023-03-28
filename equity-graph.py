@@ -59,3 +59,5 @@ def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_intere
             break
     else:
         st.write('You will not have 75% equity.')
+
+calculate_equity_over_time(total_cost=500000, down_payment_percent=0.2, mortgage_interest_rate=0.04, mortgage_term_years=30)
