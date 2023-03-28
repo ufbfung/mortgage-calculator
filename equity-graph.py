@@ -42,13 +42,15 @@ def calculate_equity_over_time(total_cost, down_payment_percent, mortgage_intere
     ax.axhline(y=50, color='gray', linestyle='--')
     ax.axhline(y=75, color='gray', linestyle='--')
 
-    return fig, equity
+    return fig, equity, monthly_payment
 
-fig, equity = calculate_equity_over_time(total_cost, down_payment_percent/100, mortgage_interest_rate/100, mortgage_term_years)
+fig, equity, monthly_payment = calculate_equity_over_time(total_cost, down_payment_percent/100, mortgage_interest_rate/100, mortgage_term_years)
 
 st.pyplot(fig)
 
 today = date.today()
+
+st.write(f"Your monthly mortgage cost will be ${monthly_payment:.2f}.")
 
 for i, eq in enumerate(equity):
     if eq >= 25:
